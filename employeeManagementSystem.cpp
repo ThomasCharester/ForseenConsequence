@@ -15,19 +15,25 @@ EmployeeManagementSystem::EmployeeManagementSystem() {}
 
 void EmployeeManagementSystem::addEmployee(const Employee& emp) {
 	employees.push_back(emp);
+	employees[employees.size() - 1].calculateAge();
 }
 
 void EmployeeManagementSystem::viewEmployees() {
 	// Просмотр всех сотрудников
 	std::cout << "Список сотрудников:\n";
 	for (const auto& emp : employees) {
-		std::cout << emp.fullName << " - " << emp.department << " - " << emp.position << " - " << emp.startDate << " - " << emp.age <<'\n';
+		std::cout << emp.fullName << " - " << emp.department << " - " << emp.position << " - " << emp.startDate << " - " << emp.age << '\n';
 	}
 }
 
 void EmployeeManagementSystem::removeEmployee(const std::string& employeeName) {
+	if (!areYouSure()) return;
 	auto it = std::remove_if(employees.begin(), employees.end(),
 		[&employeeName](const Employee& emp) { return emp.fullName == employeeName; });
+	
+	if(it == employees.end())
+		throw(std::string("Нет такого сотрудника"));
+
 	employees.erase(it, employees.end());
 }
 
@@ -180,6 +186,18 @@ void EmployeeManagementSystem::readEmployeesFromFile()
 }
 
 void EmployeeManagementSystem::setFileName(std::string fileName) { this->fileName = fileName; }
+
+bool EmployeeManagementSystem::areYouSure()
+{
+	std::cout << "Вы уверены? (1-Да,0-Нет)";
+	int choice;
+	do {
+		std::cout << '\n';
+		std::cin >> choice;
+	} while (choice < 0 || choice > 1);
+
+	return choice;
+}
 
 int Employee::calculateAge() {
 	// Текущая дата

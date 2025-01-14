@@ -52,9 +52,13 @@ public:
     void writeEmployeesToFile();
     void readEmployeesFromFile();
     void setFileName(std::string fileName);
+
+    // Дополнительный функционал
+    bool areYouSure(); // Подтверждение ввода
 private:
     std::vector<Employee> employees;  // Список сотрудников
     std::string fileName = "employees.tхt"; // Имя файла с сотрудниками
+
 };
 
 #endif // EMPLOYEEMANAGEMENTSYSTEM_
